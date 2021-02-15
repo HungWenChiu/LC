@@ -1,0 +1,30 @@
+// 先用DP 算左邊最大邊界
+// 再從最後開始算右邊最大邊界
+// 兩個邊界取小的邊界，然後跟現在的大小比，如果比較大  表示會形成凹槽，凹槽的部分就是min(邊界) - height[i]
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        
+        int res = 0;
+        int mx = 0, n = height.size();
+        vector<int> dp(n, 0);
+        
+        for(int i = 0; i < n; i++) // first caculate left max number
+        {
+            mx = max(mx, height[i]);
+            dp[i] = mx;    
+        }
+        
+        mx = 0; 
+        for(int i = n - 1; i >= 0; i--) // the second step is to get right max number
+        {
+            dp[i] = min(mx, dp[i]);
+            mx = max(mx, height[i]);
+            if(dp[i] > height[i]) res += dp[i] - height[i];
+            dp[i] = mx;
+        }
+        
+        return res;
+    }
+};
