@@ -1,0 +1,20 @@
+// double pointors
+// time complexity is O(VN)
+class Solution {
+public:
+        
+    vector<int> pourWater(vector<int>& heights, int V, int K) {
+        
+        for(int i = 0; i < V; i++)
+        {
+            int l = K, r = K, n = heights.size();
+            while(l > 0 && heights[l] >= heights[l - 1]) l--; // need to find the left most mini height
+            while(l < K && heights[l] == heights[l + 1]) l++; // need to roll back if all left height are the same as height[K]
+            while(r < n - 1 && heights[r] >= heights[r + 1]) r++; // need to find the right most mini height
+            while(r > K && heights[r] == heights[r - 1]) r--; // need to roll back if all right height are the same as height[K]
+            
+            (heights[l] < heights[K]) ? heights[l]++ : heights[r]++;
+        }
+        return heights;
+    }
+};
